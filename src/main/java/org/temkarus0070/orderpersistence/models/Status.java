@@ -1,4 +1,4 @@
-package org.temkarus0070.models;
+package org.temkarus0070.orderpersistence.models;
 
 import java.io.Serializable;
 
