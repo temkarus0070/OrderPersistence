@@ -1,20 +1,47 @@
 server:
-  port: 8087
+  port: 9087
 payService:
-  address: http://localhost:8080
+  address: http://localhost:9089
 spring:
   kafka:
+
+    properties:
+      topic: processOrders1
+      spring:
+        json:
+          value:
+            default:
+              type: org.temkarus0070.orderpersistence.models.Order
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: group_id
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: group-id
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer:  org.apache.kafka.common.serialization.LongSerializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
 
-  jpa:
-    hibernate:
-      ddl-auto: update
+
   datasource:
     url: jdbc:postgresql://localhost:5432/Orders
     username: postgres
     password: postgres
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+  jta:
+    atomikos:
+      datasource:
+        xa-data-source-class-name:

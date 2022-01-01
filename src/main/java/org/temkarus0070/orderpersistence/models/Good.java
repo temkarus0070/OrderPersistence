@@ -1,24 +1,59 @@
 package org.temkarus0070.orderpersistence.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.sun.istack.NotNull;
+import org.springframework.lang.NonNull;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 
 @Entity
-public class Good  {
+@Table(name = "GOODS")
+public class Good implements Serializable {
     public Good(){
 
     }
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NonNull
     private long id;
+
+    @Column
+    @NonNull
     private String name;
+
+    @Column
+    @NonNull
     private double price;
+
+    @Column
+    @NonNull
     private int count;
+
+    @Column
+    @NonNull
     private double sum;
 
-    @ManyToOne()
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Good good = (Good) o;
+        return id == good.id && Double.compare(good.price, price) == 0 && count == good.count && Double.compare(good.sum, sum) == 0 && Objects.equals(name, good.name) && Objects.equals(order, good.order);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, count, sum, order);
+    }
+
+    @JsonIgnoreProperties("goods")
+    @ManyToOne(optional = false)
+    @NonNull
     private Order order;
 
 
