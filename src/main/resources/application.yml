@@ -6,7 +6,7 @@ spring:
   kafka:
 
     properties:
-      topic: processOrders1
+      topic: ordersToAnalyze
       spring:
         json:
           value:

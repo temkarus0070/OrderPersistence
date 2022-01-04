@@ -11,6 +11,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.temkarus0070.orderpersistence.models.Good;
+import org.temkarus0070.orderpersistence.models.GoodDTO;
 import org.temkarus0070.orderpersistence.models.Order;
 import org.temkarus0070.orderpersistence.models.Status;
 
@@ -49,14 +50,14 @@ public class KafkaConsumer {
             good.setOrder(order);
         }
         order.setStatus(Status.PENDING);
-  //      order=ordersRepository.saveAndFlush(order);
+       order=ordersRepository.saveAndFlush(order);
         try {
             order = validate(order);
         }
         catch (org.springframework.web.client.RestClientException exception){
             exception.printStackTrace();
         }
- //       ordersRepository.save(order);
+        ordersRepository.save(order);
         kafkaProducer.send(order);
     }
 
