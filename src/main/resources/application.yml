@@ -13,7 +13,7 @@ spring:
             default:
               type: org.temkarus0070.orderpersistence.models.Order
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 127.0.0.1:9092
       group-id: group-id
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
