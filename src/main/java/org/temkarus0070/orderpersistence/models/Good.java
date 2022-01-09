@@ -1,9 +1,7 @@
 package org.temkarus0070.orderpersistence.models;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.sun.istack.NotNull;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -38,23 +36,23 @@ public class Good implements Serializable {
     @NonNull
     private double sum;
 
+    @JsonBackReference
+    @ManyToOne(optional = false)
+    @NonNull
+    private Order order;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Good good = (Good) o;
-        return id == good.id && Double.compare(good.price, price) == 0 && count == good.count && Double.compare(good.sum, sum) == 0 && Objects.equals(name, good.name) && Objects.equals(order, good.order);
+        return id == good.id && Double.compare(good.price, price) == 0 && count == good.count && Double.compare(good.sum, sum) == 0 && Objects.equals(name, good.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, count, sum, order);
+        return Objects.hash(id, name, price, count, sum);
     }
-
-    @JsonIgnoreProperties("goods")
-    @ManyToOne(optional = false)
-    @NonNull
-    private Order order;
 
 
 
