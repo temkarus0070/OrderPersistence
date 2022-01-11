@@ -5,10 +5,8 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "ORDERS")
@@ -28,6 +26,7 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "order",cascade = {CascadeType.ALL})
     private List<Good> goods;
+
 
     @Override
     public boolean equals(Object o) {

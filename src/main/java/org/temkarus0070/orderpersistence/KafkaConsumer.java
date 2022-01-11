@@ -1,23 +1,15 @@
 package org.temkarus0070.orderpersistence;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.temkarus0070.orderpersistence.models.Good;
-import org.temkarus0070.orderpersistence.models.GoodDTO;
-import org.temkarus0070.orderpersistence.models.Order;
 import org.temkarus0070.orderpersistence.models.Status;
 
-import java.util.UUID;
-
-@Service()
+@Component
 public class KafkaConsumer {
     private final OrdersRepository ordersRepository;
 
@@ -25,9 +17,17 @@ public class KafkaConsumer {
 
     private KafkaProducer kafkaProducer;
 
+
     @Value("${payService.address}")
     private String payServiceAddress;
 
+
+    private RestTemplate restTemplate;
+
+    @Autowired
+    public KafkaConsumer(final OrdersRepository ordersRepository) {
+        this.ordersRepository = ordersRepository;
+    }
 
     @Autowired
     public void setKafkaProducer(KafkaProducer kafkaProducer) {
@@ -40,11 +40,11 @@ public class KafkaConsumer {
     }
 
     @Autowired
-    public KafkaConsumer(OrdersRepository ordersRepository) {
-        this.ordersRepository = ordersRepository;
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
-    @KafkaListener(topics = {"orders"})
+    @KafkaListener(topics = {"orders"}, id = "orderListener")
     public void consume(org.temkarus0070.orderpersistence.models.Order order){
         for (Good good:order.getGoods()){
             good.setOrder(order);
@@ -61,12 +61,11 @@ public class KafkaConsumer {
         kafkaProducer.send(order);
     }
 
-    public org.temkarus0070.orderpersistence.models.Order validate(org.temkarus0070.orderpersistence.models.Order order)throws org.springframework.web.client.RestClientException{
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<org.temkarus0070.orderpersistence.models.Order> responseEntity=null;
-         responseEntity = restTemplate.postForEntity(payServiceAddress + "/payment", order, org.temkarus0070.orderpersistence.models.Order.class);
-
-        order.setStatus(responseEntity.getBody().getStatus());
+    public org.temkarus0070.orderpersistence.models.Order validate(org.temkarus0070.orderpersistence.models.Order order)throws org.springframework.web.client.RestClientException {
+        ResponseEntity<org.temkarus0070.orderpersistence.models.Order> responseEntity = null;
+        responseEntity = restTemplate.postForEntity(payServiceAddress + "/payment", order, org.temkarus0070.orderpersistence.models.Order.class);
+        if (responseEntity != null && responseEntity.getBody() != null)
+            order.setStatus(responseEntity.getBody().getStatus());
         return order;
     }
 

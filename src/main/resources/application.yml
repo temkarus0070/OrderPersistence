@@ -2,9 +2,11 @@ server:
   port: 9087
 payService:
   address: http://localhost:9089
-spring:
-  kafka:
 
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  kafka:
     properties:
       topic: ordersToAnalyze
       spring:
@@ -15,7 +17,7 @@ spring:
     consumer:
       bootstrap-servers: 127.0.0.1:9092
       group-id: group-id
-      auto-offset-reset: latest
+      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
     producer:
@@ -27,6 +29,7 @@ spring:
             add:
               type:
                 headers: false
+    bootstrap-servers: 127.0.0.1:9092
 
 
   datasource:
@@ -41,7 +44,3 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
-  jta:
-    atomikos:
-      datasource:
-        xa-data-source-class-name:

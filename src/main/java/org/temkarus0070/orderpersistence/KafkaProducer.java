@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class KafkaProducer {
     @Value("${spring.kafka.properties.topic}")
     private String topic;
+
     private KafkaTemplate<Long,OrderDTO> kafkaTemplate;
 
     @Autowired
