@@ -92,7 +92,7 @@ public class KafkaProducerTest {
     }
 
     @Test
-    public void testSend() throws InterruptedException {
+    public void testProducerWork() throws InterruptedException {
         Random random = new Random(new Date().getTime());
         Order order = new Order();
         order.setClientFIO("Pupkin");

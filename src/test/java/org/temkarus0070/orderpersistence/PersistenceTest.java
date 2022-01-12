@@ -26,7 +26,7 @@ public class PersistenceTest {
     }
 
     @Test
-    void test() {
+    void testPersistenceRepositorySave() {
         List<Good> list = new ArrayList<>();
         Good good = new Good();
         good.setCount(2);
