@@ -1,8 +1,5 @@
 package org.temkarus0070.orderpersistence.models;
 
-import org.springframework.lang.NonNull;
-
-import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 

@@ -19,6 +19,7 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.temkarus0070.orderpersistence.models.Order;
 import org.temkarus0070.orderpersistence.models.Status;
@@ -35,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 @ExtendWith(SpringExtension.class)
 @EmbeddedKafka(topics = "orders",
         bootstrapServersProperty = "spring.kafka.bootstrap-servers", partitions = 1)
+@DirtiesContext
 public class KafkaProducerTest {
     private static String SENDER_TOPIC = "ordersToAnalyze";
     @Autowired
@@ -103,6 +105,7 @@ public class KafkaProducerTest {
         ConsumerRecord<Long, Order> received =
                 records.poll(10000, TimeUnit.MILLISECONDS);
         Assertions.assertEquals(received.value(), order);
+        container.stop();
 
     }
 }

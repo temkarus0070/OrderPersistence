@@ -81,7 +81,7 @@ public class KafkaConsumerTest {
         container.start();
         kafkaProducer.send(SENDER_TOPIC, order.getOrderNum(), order);
         Assertions.assertTrue(latch.await(10, TimeUnit.SECONDS));
-
+        container.stop();
 
     }
 }
