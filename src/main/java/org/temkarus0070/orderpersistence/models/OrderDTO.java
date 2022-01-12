@@ -5,10 +5,7 @@ import java.util.Objects;
 
 public class OrderDTO {
     private Long orderNum;
-
     private String clientFIO;
-
-
     private List<GoodDTO> goods;
 
     public OrderDTO(Long orderNum, String clientFIO, List<GoodDTO> goods, Status status) {

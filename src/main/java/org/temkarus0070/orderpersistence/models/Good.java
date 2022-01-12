@@ -12,8 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "GOODS")
 public class Good implements Serializable {
-    public Good(){
-
+    public Good() {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,8 +52,6 @@ public class Good implements Serializable {
     public int hashCode() {
         return Objects.hash(id, name, price, count, sum);
     }
-
-
 
     public long getId() {
         return id;

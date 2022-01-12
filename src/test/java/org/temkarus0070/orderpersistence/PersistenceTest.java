@@ -18,9 +18,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 public class PersistenceTest {
 
-
     private OrdersRepository ordersRepository;
-
 
     @Autowired
     public void setOrdersRepository(OrdersRepository orderRepository) {
@@ -37,21 +35,16 @@ public class PersistenceTest {
         good.setId(1);
         good.setName("Vanish");
         list.add(good);
-
         Order order = new Order();
         good.setOrder(order);
         order.setGoods(list);
         order.setStatus(Status.NEW);
         order.setOrderNum(1L);
         order.setClientFIO("Pupkin");
-
         order = ordersRepository.saveAndFlush(order);
-
-
         final Order order1 = ordersRepository.findAll().get(0);
 
         Assertions.assertNotNull(order1);
         Assertions.assertEquals(order, order1);
-
     }
 }

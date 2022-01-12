@@ -17,10 +17,8 @@ public class KafkaConsumer {
 
     private KafkaProducer kafkaProducer;
 
-
     @Value("${payService.address}")
     private String payServiceAddress;
-
 
     private RestTemplate restTemplate;
 
@@ -68,7 +66,4 @@ public class KafkaConsumer {
             order.setStatus(responseEntity.getBody().getStatus());
         return order;
     }
-
-
-
 }

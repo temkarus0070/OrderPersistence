@@ -35,13 +35,10 @@ import java.util.concurrent.TimeUnit;
 @DirtiesContext
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
 public class KafkaConsumerTest {
-
-
     private static String SENDER_TOPIC = "orders";
     private KafkaTemplate<Long, Order> kafkaProducer;
     @Autowired
     private KafkaListenerEndpointRegistry registry;
-
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafka;
@@ -53,10 +50,7 @@ public class KafkaConsumerTest {
         senderProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_DOC, JsonSerializer.class.getName());
         ProducerFactory<Long, Order> pf = new DefaultKafkaProducerFactory<>(senderProps, new LongSerializer(), new JsonSerializer<>());
         this.kafkaProducer = new KafkaTemplate<>(pf);
-
-
     }
-
 
     @Test
     public void testSend() throws InterruptedException {
@@ -82,6 +76,5 @@ public class KafkaConsumerTest {
         kafkaProducer.send(SENDER_TOPIC, order.getOrderNum(), order);
         Assertions.assertTrue(latch.await(10, TimeUnit.SECONDS));
         container.stop();
-
     }
 }

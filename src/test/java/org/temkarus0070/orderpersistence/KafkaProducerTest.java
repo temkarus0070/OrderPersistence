@@ -34,8 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-@EmbeddedKafka(topics = "orders",
-        bootstrapServersProperty = "spring.kafka.bootstrap-servers", partitions = 1)
+@EmbeddedKafka(topics = "orders", bootstrapServersProperty = "spring.kafka.bootstrap-servers", partitions = 1)
 @DirtiesContext
 public class KafkaProducerTest {
     private static String SENDER_TOPIC = "ordersToAnalyze";
@@ -66,7 +65,6 @@ public class KafkaProducerTest {
         // set the topic that needs to be consumed
         ContainerProperties containerProperties =
                 new ContainerProperties(SENDER_TOPIC);
-
 
         // create a Kafka MessageListenerContainer
         container = new KafkaMessageListenerContainer<>(consumerFactory,
@@ -106,6 +104,5 @@ public class KafkaProducerTest {
                 records.poll(10000, TimeUnit.MILLISECONDS);
         Assertions.assertEquals(received.value(), order);
         container.stop();
-
     }
 }

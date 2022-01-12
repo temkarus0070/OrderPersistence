@@ -27,7 +27,6 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order",cascade = {CascadeType.ALL})
     private List<Good> goods;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,10 +58,6 @@ public class Order implements Serializable {
     public void setGoods(List<Good> goods) {
         this.goods = goods;
     }
-
-
-
-
 
     public String getClientFIO() {
         return clientFIO;

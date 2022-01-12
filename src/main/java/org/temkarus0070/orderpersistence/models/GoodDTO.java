@@ -1,19 +1,10 @@
 package org.temkarus0070.orderpersistence.models;
 
-
-
 public class GoodDTO {
     private long id;
-
-
     private String name;
-
     private double price;
-
-
     private int count;
-
-
     private double sum;
 
     public GoodDTO(long id, String name, double price, int count, double sum) {
