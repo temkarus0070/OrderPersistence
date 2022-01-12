@@ -1,0 +1,46 @@
+server:
+  port: 9087
+payService:
+  address: http://localhost:9089
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  kafka:
+    properties:
+      topic: ordersToAnalyze
+      spring:
+        json:
+          value:
+            default:
+              type: org.temkarus0070.orderpersistence.models.Order
+    consumer:
+      bootstrap-servers: 127.0.0.1:9092
+      group-id: group-id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer:  org.apache.kafka.common.serialization.LongSerializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+    bootstrap-servers: 127.0.0.1:9092
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Orders
+    username: postgres
+    password: postgres
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
