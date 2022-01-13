@@ -2,7 +2,6 @@ server:
   port: 9087
 payService:
   address: ${PAY_SERVICE:http://localhost:9089}
-
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -31,7 +30,6 @@ spring:
                 headers: false
     bootstrap-servers: ${KAFKA_SERVER:127.0.0.1:9092}
 
-
   datasource:
     url: jdbc:postgresql://localhost:5432/Orders
     username: postgres
@@ -44,7 +42,6 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
-
 
   application:
     name: orderPersistence
