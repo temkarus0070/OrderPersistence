@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.temkarus0070.orderpersistence.models.Good;
 import org.temkarus0070.orderpersistence.models.Order;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 public class PersistenceTest {
 
     private OrdersRepository ordersRepository;

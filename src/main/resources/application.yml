@@ -1,8 +1,7 @@
 server:
   port: 9087
 payService:
-  address: http://localhost:9089
-
+  address: ${PAY_SERVICE:http://localhost:9089}
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -15,7 +14,7 @@ spring:
             default:
               type: org.temkarus0070.orderpersistence.models.Order
     consumer:
-      bootstrap-servers: 127.0.0.1:9092
+      bootstrap-servers: ${KAFKA_SERVER:127.0.0.1:9092}
       group-id: group-id
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
@@ -29,8 +28,7 @@ spring:
             add:
               type:
                 headers: false
-    bootstrap-servers: 127.0.0.1:9092
-
+    bootstrap-servers: ${KAFKA_SERVER:127.0.0.1:9092}
 
   datasource:
     url: jdbc:postgresql://localhost:5432/Orders
@@ -44,3 +42,24 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
+
+  application:
+    name: orderPersistence
+
+opentracing.jaeger:
+  udp-sender:
+    host: ${JAEGER_HOST:localhost}
+    port: 6831
+  log-spans: true
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true

@@ -19,6 +19,7 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.temkarus0070.orderpersistence.models.Order;
 import org.temkarus0070.orderpersistence.models.Status;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext
+@ActiveProfiles("test")
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
 public class KafkaConsumerTest {
     private static String SENDER_TOPIC = "orders";
